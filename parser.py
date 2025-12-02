@@ -35,6 +35,7 @@ class Parser:
         self.nlp = spacy.load("en_core_web_sm") # loading the language model
 
         self.score = 0 # each instance of a class has a score initialized to 0
+        self.total_tokens = 0 # this will be used to compare the score against the total possible score
 
         self.chunk = []
         self.noun_phrases = []
@@ -73,5 +74,34 @@ class Parser:
                     temp_token_list.append(token.text)
                 self.tokens.append(temp_token_list)    
     
-    def evalutate_claim():
-        return
+    def evalutate_claim(self):
+        for i in range(len(self.tokens)):
+            for token in self.tokens[i]:
+                if token in Parser.ambiguous_terms:
+                    self.total_tokens += 1 
+                    self.score -= 1
+                elif token in Parser.abstract_terms:
+                    self.total_tokens += 1
+                    self.score += 1
+                elif token in Parser.specific_terms:
+                    self.total_tokens += 1
+                    self.score += 2
+
+        max = self.total_tokens * 2
+        min = self.total_tokens * -1
+        strength = (self.score - min)/ (max - min)
+
+        if strength < 0.33:
+            explanation = "This claim contains too many ambiguous terms and lacks precise, technical terms. \nThe interpretation may be too broad."
+        elif strength < 0.66:
+            explanation = "This claim contains a mix of abstract and specific terms. \nThe interpretation is neither too broad or specific."
+        else:
+            explanation = "This claim contains a lot of technicalically specific terms. \nThis interpretation is very clear and may be too specific, as a result it could be limiting."
+
+        print("----- CLAIM EVALUATION SUMMARY -----")
+        print(f"Total matched tokens : {self.total_tokens}")
+        print(f"Raw score            : {self.score} (range: {min} to {max})")
+        print(f"Strength (0-1)       : {strength:.2f}")
+        print("-----------------------------------")
+        print(explanation)
+        print("-----------------------------------")
