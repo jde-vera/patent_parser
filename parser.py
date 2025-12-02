@@ -1,20 +1,64 @@
 import spacy
 
 class Parser:
-    ambiguous_terms = [] # low weight
-    abstract_terms = [] # medium weight
-    specific_terms = [] # high weight
+    ambiguous_terms = ["module", "unit", "component", "mechanism", "element", "entity", "system", "interface", "structure", "device",
+                        "apparatus", "arrangement", "construct", "object", "handler", "tool", "processor", "engine", "manager", "container",
+                        "resource", "signal", "framework", "platform", "layer", "operation", "configuration", "routine", "functionality", "gateway",
+                        "node", "port", "channel", "service", "controller", "block", "section", "portion", "area", "region",
+                        "adapter", "connector", "sub-system", "environment", "protocol", "workflow", "pathway", "space"] # low weight
+    abstract_terms = ["means", "logic", "circuitry configured to", "engine configured to",
+                      "program code", "instructions", "functionality", "process", "method step",
+                      "computing environment", "executable", "abstraction", "virtual object",
+                      "cloud resource", "metadata", "pointer", "reference", "operation code",
+                      "rule", "policy", "transformation", "mapping", "allocation", "determination",
+                      "estimation", "optimization", "evaluation", "generation", "synchronization",
+                      "negotiation", "transition", "state change", "activation", "integration",
+                      "aggregation", "prediction", "classification", "inference", "thread",
+                      "session", "context", "token", "selector", "validator", "renderer",
+                      "resolver", "coordinator", "dispatcher", "orchestrator", "intermediary"] # medium weight
+    specific_terms = ["NVIDIA GPU", "Intel CPU", "AMD Ryzen processor", "Snapdragon chipset",
+                      "ARM Cortex-A76", "USB-C port", "HDMI interface", "SATA connector",
+                      "PCIe bus", "UEFI firmware", "BIOS chip", "NVMe SSD", "DDR5 memory",
+                      "LPDDR4 RAM", "Samsung OLED display", "Retina display", "Li-Ion battery pack",
+                      "Bluetooth 5.0 module", "Wi-Fi 6 antenna", "MIMO radio", "FPGA logic block",
+                      "ASIC core", "Xilinx fabric", "Raspberry Pi board", "Arduino microcontroller",
+                      "TPM 2.0 module", "AES-256 hardware engine", "TPM-backed key store",
+                      "CUDA kernel", "Tensor core", "Vulkan renderer", "DirectX 12 API",
+                      "Metal shader", "OpenGL driver", "Java Virtual Machine", "Python interpreter",
+                      "Apache Kafka broker", "PostgreSQL server", "MySQL database",
+                      "AWS Lambda function", "Azure VM instance", "Google TPU", "Docker container",
+                      "Kubernetes node", "Linux kernel module", "Ubuntu operating system",
+                      "Windows 11 API", "macOS kernel extension", "iOS framework",
+                      "Android SDK component"] # high weight
 
     def __init__(self):
-        nlp = spacy.load("en_core_web_sm") # loading the language model
+        self.nlp = spacy.load("en_core_web_sm") # loading the language model
 
         self.score = 0 # each instance of a class has a score initialized to 0
+
+        self.chunk = []
+        self.noun_phrases = []
     
-    def get_chunk(file):
-        return
+    def get_chunk(self, file):
+        with open(file, 'r') as file:
+            lines = file.readlines()
+            claim = "".join(lines)
+
+            self.chunk = claim.split("\n")
     
-    def get_noun_phrases(chunk):
-        return
+    def get_noun_phrases(self):
+        if self.chunk == "":
+            print("You need to turn your txt file into chunks first")
+            return 
+        else:
+            # you want to create a list of lists where each list contains noun phrases that you can then tokenize
+            for i in range(len(self.chunk)): # iterate through each chunk
+                temp_chunk_list = []
+                temp_string_chunk = "".join(self.chunk[i])
+                doc = self.nlp(temp_string_chunk)
+                for phrase in doc.noun_chunks: 
+                    temp_chunk_list.append(phrase.text) # append the noun chunks to the temp storage and then append to self.noun_phrases
+                self.noun_phrases.append(temp_chunk_list)
     
     def get_token(phrase):
         return
