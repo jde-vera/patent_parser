@@ -38,6 +38,7 @@ class Parser:
 
         self.chunk = []
         self.noun_phrases = []
+        self.tokens = []
     
     def get_chunk(self, file):
         with open(file, 'r') as file:
@@ -47,7 +48,7 @@ class Parser:
             self.chunk = claim.split("\n")
     
     def get_noun_phrases(self):
-        if self.chunk == "":
+        if self.chunk == []:
             print("You need to turn your txt file into chunks first")
             return 
         else:
@@ -60,8 +61,17 @@ class Parser:
                     temp_chunk_list.append(phrase.text) # append the noun chunks to the temp storage and then append to self.noun_phrases
                 self.noun_phrases.append(temp_chunk_list)
     
-    def get_token(phrase):
-        return
+    def get_token(self):
+        if self.noun_phrases == []:
+            print("You need to turn your chunks into noun phrases first")
+        else:
+            for i in range(len(self.noun_phrases)):
+                temp_token_list = []
+                temp_string_token = "".join(self.noun_phrases[i])
+                doc = self.nlp(temp_string_token)
+                for token in doc:
+                    temp_token_list.append(token.text)
+                self.tokens.append(temp_token_list)    
     
     def evalutate_claim():
         return
