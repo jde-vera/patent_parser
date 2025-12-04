@@ -1,0 +1,10 @@
+What is claimed is:
+1. An Apple Lightning connector compatible contactless device comprising:
+a first portion that is completely enveloped in a mobile device when the Apple Lightning connector compatible contactless device is inserted into an Apple Lightning connector, the first portion including Apple Lightning compatible contacts and smartcard circuitry;
+a housing that resides outside the mobile device when the Apple Lightning connector compatible contactless device is inserted into an Apple Lightning connector, the housing including an antenna coupled to the smartcard circuitry; and
+a microUSB connector exposed in the housing.
+2. The Apple Lightning connector compatible contactless device of claim 1 wherein the microUSB connector is coupled to provide charging to the mobile device.
+3. The Apple Lightning connector compatible contactless device of claim 1 wherein the smartcard circuitry is coupled to receive power from the Apple Lightning compatible contacts.
+4. The Apple Lightning connector compatible contactless device of claim 1 wherein the antenna is oriented substantially parallel to a mating direction of the microUSB connector.
+5. The Apple Lightning connector compatible contactless device of claim 1 wherein the antenna is oriented substantially perpendicular to a mating direction of the microUSB connector.
+6. The Apple Lightning connector compatible contactless device of claim 1 wherein the smartcard controller is coupled to receive power and data from the Apple Lightning connector contacts
